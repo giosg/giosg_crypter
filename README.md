@@ -12,7 +12,7 @@
 
 ### Command line
 
-decrypt path/to/private/key/file path/to/chatsession/json/file
+`decrypt path/to/private/key/file path/to/chatsession/json/file`
 
 ## As library
 
