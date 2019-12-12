@@ -1,6 +1,6 @@
-import sys
 import subprocess
 import json
+import argparse
 from . import AESKey, asymmetric_decrypt, symmetric_decrypt
 
 
@@ -53,20 +53,32 @@ class DecryptChatSession(object):
         return chat_session
 
 
-class Main(object):
+class CommandLine(object):
+    def __init__(self):
+        self.parser = argparse.ArgumentParser(usage='decrypt key chat',
+                                              description='Decrypt Giosg chat.')
+        self.parser.add_argument('private_key', metavar='key', type=str,
+                                 help='path to the private key file')
+        self.parser.add_argument('chat_session', metavar='chat', type=str,
+                                 help='path to chat session json file')
+
+    def arguments(self):
+        return self.parser.parse_args()
+
+
+class Client(object):
+
+    def __init__(self, args):
+        self.private_key = args.private_key
+        self.chat_session = args.chat_session
 
     def run(self):
-        if len(sys.argv) < 2:
-            sys.exit(1)
-        path_to_private_key_file = sys.argv[1]
-        path_to_chat_session_text_file = sys.argv[2]
-
-        private_key = subprocess.check_output(['openssl', 'rsa', '-in', path_to_private_key_file])
-        with open(path_to_chat_session_text_file, 'r') as f:
+        private_key = subprocess.check_output(['openssl', 'rsa', '-in', self.private_key])
+        with open(self.chat_session, 'r') as f:
             chat_session = json.loads(f.read())
 
         print(DecryptChatSession(private_key).decrypt(chat_session))
 
 
 def run():
-    Main().run()
+    Client(CommandLine().arguments()).run()
