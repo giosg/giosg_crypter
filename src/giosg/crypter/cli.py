@@ -31,7 +31,7 @@ class DecryptChatSession(object):
             key = AESKey.from_json(aes_key)
 
             for message in messages:
-                if message['encrypted_message']:
+                if 'encrypted_message' in message and message['encrypted_message']:
                     message['message'] = symmetric_decrypt(key, message['encrypted_message'])
 
         return messages
