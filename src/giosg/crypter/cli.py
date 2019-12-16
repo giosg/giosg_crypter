@@ -132,7 +132,8 @@ class UrlInputReader(InputReader):
         return self._get_response(self.chat_session)
 
     def read_messages(self):
-        return self._get_response(self.chat_session + "/messages")["results"]
+        path = "messages" if self.chat_session[-1] == "/" else "/messages"
+        return self._get_response(self.chat_session + path)["results"]
 
     def _get_response(self, url):
         print("Fetching:", url)

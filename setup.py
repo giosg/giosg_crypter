@@ -38,7 +38,8 @@ setup(
     long_description=readme(),
     install_requires=[
         'cryptography',
-        'pycryptodomex'
+        'pycryptodomex',
+        'requests'
     ],
     tests_require=[
         'tox',
