@@ -61,7 +61,19 @@ class CrypterTest(TestCase):
         decrypted_plaintext = asymmetric_decrypt(private_key, ciphertext)
         self.assertEqual(decrypted_plaintext, plaintext)
 
-    def test_encrypt_rsa_with_bytes(self):
+    def test_encrypt_rsa_message_with_bytes(self):
+        private_key = RSA.generate(2048)
+        public_key = private_key.publickey()
+        plaintext = 'i am an AES key that needs to be encrypted'
+
+        ciphertext = asymmetric_encrypt(public_key, plaintext.encode('utf-8'))
+        self.assertNotIn(plaintext, ciphertext)
+        self.assertNotEqual(len(plaintext), len(ciphertext))
+
+        decrypted_plaintext = asymmetric_decrypt(private_key, ciphertext)
+        self.assertEqual(decrypted_plaintext, plaintext)
+
+    def test_encrypt_rsa_key_with_bytes(self):
         rsa_key = RSA.generate(2048)
         private_key = rsa_key.export_key()
         public_key = rsa_key.publickey().export_key()
@@ -74,7 +86,7 @@ class CrypterTest(TestCase):
         decrypted_plaintext = asymmetric_decrypt(private_key, ciphertext)
         self.assertEqual(decrypted_plaintext, plaintext)
 
-    def test_encrypt_rsa_with_strings(self):
+    def test_encrypt_rsa_key_with_strings(self):
         rsa_key = RSA.generate(2048)
         private_key = rsa_key.export_key().decode('utf-8')
         public_key = rsa_key.publickey().export_key().decode('utf-8')

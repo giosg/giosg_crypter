@@ -39,8 +39,10 @@ class DecryptChatSession(object):
 
 class CommandLine(object):
     def __init__(self):
-        self.parser = argparse.ArgumentParser(usage='decrypt key chat [-m --messages]',
-                                              description='Decrypt Giosg chat.')
+        self.parser = argparse.ArgumentParser(
+            usage='decrypt key chat [-m --messages]\n   or: decrypt key chat [-t --token]',
+            description='Decrypt Giosg chat.'
+        )
         self.parser.add_argument(
             'private_key',
             metavar='key',
@@ -113,6 +115,10 @@ class FileInputReader(InputReader):
     def __init__(self, args):
         super().__init__(args)
         self.messages = args.messages
+        if self.messages is None:
+            print("usage: decrypt key chat [-m --messages]")
+            print("decrypt: error: message file required: [-m --messages]")
+            exit(2)
 
     def read_chat_session(self):
         with open(self.chat_session, 'r') as f:
@@ -127,6 +133,10 @@ class UrlInputReader(InputReader):
     def __init__(self, args):
         super().__init__(args)
         self.token = args.token
+        if self.token is None:
+            print("usage: decrypt key chat_url [-t --token]")
+            print("decrypt: error: token required: [-t --token]")
+            exit(2)
 
     def read_chat_session(self):
         return self._get_response(self.chat_session)
