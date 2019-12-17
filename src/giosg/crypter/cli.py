@@ -1,7 +1,7 @@
+import sys
 import subprocess
 import json
 import argparse
-import pprint
 
 import requests
 
@@ -136,7 +136,7 @@ class UrlInputReader(InputReader):
         return self._get_response(self.chat_session + path)["results"]
 
     def _get_response(self, url):
-        print("Fetching:", url)
+        print("Fetching:", url, file=sys.stderr)
         response = requests.get(url, headers={"Authorization": "Token %s" % self.token})
         response.raise_for_status()
         return json.loads(response.content)
@@ -152,7 +152,7 @@ class OutputWriter(object):
         if self.output_type == 'file':
             self._write_file(output)
         else:
-            pprint.pprint(output)
+            print(json.dumps(output, indent=4), file=sys.stdout)
 
     def _write_file(self, output):
         with open(self.filename, 'w') as f:
