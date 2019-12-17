@@ -27,7 +27,11 @@ By providing a url that starts with `https`, the chat session and the messages c
 The API Token needs to be given with  `-t` or `--token` flag.
 In this case, url to the messages is not required.
 
-`decrypt path/to/private/key/file https://service.giosg.com/api/v5/path/to/chats/<chat_session_id> -t qef1h3iu2hfiu2h4ri2u3hri2u3hr`
+`decrypt path/to/private/key/file https://service.giosg.com/api/v5/path/to/chats/<chat_session_id> -t 6agf3a2b2f4440b6dfssb79ddb24ff2a5abbc9a2`
+
+Example of reading chat messages directly from API and printing to STDOUT:
+`decrypt path/to/private/key/file -t 6agf3a2b2f4440b6dfssb79ddb24ff2a5abbc9a2 https://service.giosg.com/api/v5/users/9ff0de38-93bd-11e7-9200-60f81db14236/chats/c7ee1fda-1cd8-11ea-873f-f218983fece9/ -o stdout`
+
 
 #### Choosing output
 
@@ -42,11 +46,11 @@ The output can also be changed to stdout with `-o` or `--output` flag:
 
 #### Version
 
-`decrypt --version` or `decrypt -v` 
+`decrypt --version` or `decrypt -v`
 
 #### Help
 
-`decrypt --help` or `decrypt -h` 
+`decrypt --help` or `decrypt -h`
 
 ## As library
 
